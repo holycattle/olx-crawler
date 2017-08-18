@@ -8,7 +8,7 @@ c.execute('''CREATE TABLE listings
              (title text, creator text, creator_address text, 
              price real, for_rent boolean, post_address text,
              condition text, beds integer, baths integer,
-             floor_size integer, ad_id real primary key)''')
+             floor_size integer, ad_id integer primary key)''')
 
 conn.commit()
 conn.close()
