@@ -11,6 +11,7 @@ BATHS = "Bath:"
 FLOOR_SIZE = "Floor:"
 AD_ID = "Ad ID:"
 
+
 class OLXHousingListSpider(scrapy.Spider):
     name = "olx_housing"
     root_url = 'https://www.olx.ph'
@@ -49,10 +50,11 @@ div/ul/li/span[contains(@class, "value")]/text()')
         listing = {
             'title': extract_from_css('h1.title-name::text'),
             'creator': extract_from_css('span.username a[rel="nofollow"]::text'),
-            'creator_address': extract_from_css('span.title-meta[name="seller_location"]::text'),
+            'creator_address': extract_from_css('span.title-meta\
+[name="seller_location"]::text'),
             'price': int(extract_from_css('h2.price-value::text').replace(',', '').split(' ')[1]),
             # everything is for sale because of the URL
-            'for_rent' : True,
+            'for_rent': True,
             'post_address': details.get(LOCATION),
             'condition': details.get(CONDITION),
             'beds': details.get(BEDS),
@@ -64,7 +66,6 @@ div/ul/li/span[contains(@class, "value")]/text()')
         conn = sqlite3.connect('sql/olx_re_data.db')
         c = conn.cursor()
         lv = list(listing.values())
-        
         c.execute('''INSERT INTO listings
             VALUES (?,?,?,?,?,?,?,?,?,?,?)''', tuple(lv))
         conn.commit()
